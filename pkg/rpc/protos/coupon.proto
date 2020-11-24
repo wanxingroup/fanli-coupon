@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package coupon.pkg.rpc.protos;
+
+option go_package = "protos";
+
+import "coupon_common.proto";
+
+
+service ShopCouponController{
+    // 创建优惠券
+    rpc CreateCoupon (CreateCouponRequest) returns (CouponInfoReply) {
+    }
+
+    // 优惠券列表
+    rpc GetCouponList (GetCouponListRequest) returns (GetCouponListReply) {
+    }
+
+    // 获取优惠券详情
+    rpc GetCouponInfo (GetCouponInfoRequest) returns (GetCouponInfoReply) {
+    }
+
+    // 编辑优惠券
+    rpc ModifyCoupon (CreateCouponRequest) returns (CouponInfoReply) {
+    }
+}
+
+message CouponInfo{
+    uint64 shopId = 1;
+    uint64 type = 2;
+    string name = 3;
+    uint64 validityType = 4;
+    uint64 relativeTime = 5;
+    string startTime = 6;
+    string endTime = 7;
+    string instructions = 8;
+    uint64 couponId = 9;
+    string createdAt = 10;
+}
+message GetCouponInfoRequest{
+    uint64 couponId = 1;
+    uint64 shopId = 2;
+}
+
+message GetCouponInfoReply{
+    CouponInfo couponInfo = 1;
+    Error err = 2;
+}
+
+message GetCouponListReply{
+    repeated CouponInfo couponList = 1;
+    Error err = 2;
+    uint64 count =3;
+}
+
+
+message CreateCouponRequest{
+    uint64 shopId = 1;
+    uint64 type = 2;
+    string name = 3;
+    uint64 validityType = 4;
+    uint64 relativeTime = 5;
+    string startTime = 6;
+    string endTime = 7;
+    string instructions = 8;
+    uint64 couponId = 9;
+}
+
+
+message CouponInfoReply{
+    Error err = 1;
+    uint64 couponId = 2;
+}
+
+message GetCouponListRequest{
+    uint64 shopId = 1;
+    uint64 type = 2;
+    string name = 3;
+    uint64 validityType = 4;
+    uint64 relativeTime = 5;
+    string startTime = 6;
+    string endTime = 7;
+    uint64 page = 8;
+    uint64 PageSize = 9;
+    uint32 isAll = 10;
+}

@@ -1,0 +1,141 @@
+syntax = "proto3";
+
+package coupon.pkg.rpc.protos;
+
+option go_package = "protos";
+
+import "coupon_common.proto";
+import "coupon.proto";
+
+
+service UserCouponController {
+    // 优惠券列表
+    rpc GetUserCouponList (GetUserCouponListRequest) returns (GetUserCouponListReply) {
+    }
+    
+    // 优惠券详情
+    rpc GetUserCouponInfo (GetUserCouponInfoRequest) returns (GetUserCouponInfoReply) {
+    }
+    
+    // 通过 code 获取用户劵码
+    rpc GetCouponInfoByCode (CouponInfoByCodeRequest) returns (GetUserCouponInfoReply) {
+    }
+    
+    // 发放优惠券接口 [多张优惠券]
+    rpc StuffUserCoupons (StuffUserCouponRequest) returns (StuffUserCouponReply) {
+    }
+    
+    // 核销优惠券接口
+    rpc VerifyCoupon (VerifyCouponRequest) returns (VerifyCouponReply) {
+    
+    }
+    
+    // 核销列表接口
+    rpc GetVerificationCouponList (GetVerificationCouponListRequest) returns (GetVerificationCouponListReply) {
+    
+    }
+    
+}
+
+message UserCouponInfo {
+    CouponInfo couponInfo = 1;
+    string expireTime = 2;
+    uint32 status = 3;
+    string verificationTime = 4;
+    string createdAt = 5;
+    uint64 code = 6;
+    string salt = 7;
+    uint64 userId = 8;
+}
+
+message GetUserCouponListReply {
+    repeated UserCouponInfo userCouponInfo = 1;
+    Error err = 2;
+    uint32 count = 3;
+}
+
+message GetUserCouponListRequest {
+    uint64 shopId = 1;
+    uint64 userId = 2;
+    uint32 status = 3;
+    string lastCode = 4;
+    uint32 pageSize = 5;
+}
+
+message GetUserCouponInfoRequest {
+    uint64 code = 1;
+    uint64 userId = 2;
+    uint64 shopId = 3;
+}
+
+message GetUserCouponInfoReply {
+    UserCouponInfo userCouponInfo = 1;
+    Error err = 2;
+}
+
+message StuffCouponStuck {
+    uint64 couponId = 1;
+    uint32 nums = 2;
+}
+
+message StuffUserCouponRequest {
+    repeated StuffCouponStuck stuffCouponStuck = 1;
+    uint64 userId = 2;
+}
+
+message StuffUserCouponReply {
+    repeated uint64 codes = 1;
+    Error err = 2;
+}
+
+enum UserCouponStatus {
+    UnUse = 0;
+    Used = 1;
+    Expired = 2;
+}
+
+message VerifyCouponRequest {
+    uint64 code = 1;
+    uint64 shopId = 2;
+    uint64 verifierUserId = 3;
+}
+message VerifyCouponReply {
+    UserCouponInfo userCouponInfo = 1;
+    Error err = 2;
+}
+
+message CouponInfoByCodeRequest {
+    uint64 code = 1;
+    uint64 shopId = 2;
+}
+
+message GetVerificationCouponListRequest {
+    uint64 shopId = 1;
+    string name = 2;
+    string startTime = 3;
+    string endTime = 4;
+    uint32 verificationStatus = 5;
+    uint64 verifierUserId = 6;
+    uint64 page = 7;
+    uint64 PageSize = 8;
+}
+
+message VerificationCouponInfo {
+    uint64 code = 1;
+    string name = 2;
+    string verificationTime = 3;
+    uint64 couponRelativeTime = 4;
+    uint32 verificationType = 5;
+    uint64 verifierUserId = 6;
+    uint32 CouponType = 7;
+    string startTime = 8;
+    string endTime = 9;
+    uint32 validityType = 10;
+    uint64 couponId = 11;
+}
+
+message GetVerificationCouponListReply {
+    repeated VerificationCouponInfo verificationCouponInfoList = 1;
+    uint32 count = 2;
+    Error err = 3;
+}
