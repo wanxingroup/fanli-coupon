@@ -14,3 +14,5 @@ require (
 	golang.org/x/net v0.0.0-20190923162816-aa69164e4478
 	google.golang.org/grpc v1.29.1
 )
+
+replace dev-gitlab.wanxingrowth.com/wanxin-go-micro/base => github.com/wanxingroup/base v0.2.27
